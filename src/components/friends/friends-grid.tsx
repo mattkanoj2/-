@@ -1,15 +1,19 @@
 'use client'
 
+import { useState } from 'react'
 import { UserPlus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { FriendCard } from './friend-card'
+import { AddFriendModal } from './add-friend-modal'
 import type { Friend } from '@/lib/supabase/types'
 
 interface FriendsGridProps {
   friends: Friend[]
+  onRefresh?: () => void
 }
 
-export function FriendsGrid({ friends }: FriendsGridProps) {
+export function FriendsGrid({ friends, onRefresh }: FriendsGridProps) {
+  const [showAddFriend, setShowAddFriend] = useState(false)
   if (friends.length === 0) {
     return (
       <div className="bg-white rounded-lg shadow-sm p-8 text-center">
@@ -19,7 +23,12 @@ export function FriendsGrid({ friends }: FriendsGridProps) {
           <p className="text-muted-foreground mb-6">
             メールアドレスで友達を検索して、ヒトコトを共有しましょう
           </p>
-          <Button>友達を追加</Button>
+          <Button onClick={() => setShowAddFriend(true)}>友達を追加</Button>
+          <AddFriendModal 
+            open={showAddFriend} 
+            onOpenChange={setShowAddFriend}
+            onFriendAdded={onRefresh}
+          />
         </div>
       </div>
     )
@@ -30,7 +39,7 @@ export function FriendsGrid({ friends }: FriendsGridProps) {
       <div className="p-4 border-b">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold">友達 ({friends.length})</h2>
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" onClick={() => setShowAddFriend(true)}>
             <UserPlus className="h-4 w-4 mr-2" />
             追加
           </Button>
@@ -42,6 +51,12 @@ export function FriendsGrid({ friends }: FriendsGridProps) {
           <FriendCard key={friend.id} friend={friend} />
         ))}
       </div>
+      
+      <AddFriendModal 
+        open={showAddFriend} 
+        onOpenChange={setShowAddFriend}
+        onFriendAdded={onRefresh}
+      />
     </div>
   )
 }

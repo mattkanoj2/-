@@ -1,11 +1,13 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { authService } from '@/lib/auth'
+import { friendsApi } from '@/lib/api/friends'
 import { StatusGrid } from '@/components/status/status-grid'
 import { FriendsGrid } from '@/components/friends/friends-grid'
 import { Header } from '@/components/layout/header'
+import { Toaster } from '@/components/ui/toaster'
 import type { UserProfile, Friend } from '@/lib/supabase/types'
 
 export default function DashboardPage() {
@@ -13,6 +15,16 @@ export default function DashboardPage() {
   const [friends, setFriends] = useState<Friend[]>([])
   const [loading, setLoading] = useState(true)
   const router = useRouter()
+
+  const loadFriends = useCallback(async () => {
+    try {
+      const friends = await friendsApi.getFriends()
+      setFriends(friends)
+    } catch (error) {
+      console.error('Failed to load friends:', error)
+      setFriends([])
+    }
+  }, [])
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -32,8 +44,8 @@ export default function DashboardPage() {
         setUser(profile)
         await authService.updateLastSeen()
         
-        // TODO: Load friends
-        setFriends([])
+        // Load friends
+        await loadFriends()
       } catch (error) {
         console.error('Auth check failed:', error)
         router.push('/auth/login')
@@ -43,7 +55,7 @@ export default function DashboardPage() {
     }
 
     checkAuth()
-  }, [router])
+  }, [router, loadFriends])
 
   if (loading) {
     return (
@@ -66,10 +78,11 @@ export default function DashboardPage() {
       
       <main className="container mx-auto px-4 py-6 max-w-4xl">
         <div className="space-y-6">
-          <FriendsGrid friends={friends} />
+          <FriendsGrid friends={friends} onRefresh={loadFriends} />
           <StatusGrid />
         </div>
       </main>
+      <Toaster />
     </div>
   )
 }

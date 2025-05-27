@@ -2,24 +2,33 @@
 
 import { useState } from 'react'
 import { StatusButton } from './status-button'
+import { statusApi } from '@/lib/api/status'
 import { getStatusDisplay } from '@/lib/utils'
+import { useToast } from '@/hooks/use-toast'
 import type { StatusType } from '@/lib/supabase/types'
 
 const statusTypes: StatusType[] = ['studying', 'working', 'eating', 'free', 'offline']
 
 export function StatusGrid() {
   const [updating, setUpdating] = useState<StatusType | null>(null)
+  const { toast } = useToast()
 
   const handleStatusUpdate = async (status: StatusType) => {
     setUpdating(status)
     try {
-      // TODO: Implement status update API call
-      console.log('Updating status to:', status)
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 500))
+      await statusApi.updateStatus(status)
+      // 成功時のフィードバック
+      toast({
+        title: "ステータス更新完了",
+        description: `${getStatusDisplay(status).label}に更新しました`,
+      })
     } catch (error) {
       console.error('Failed to update status:', error)
+      toast({
+        title: "エラー",
+        description: "ステータスの更新に失敗しました",
+        variant: "destructive",
+      })
     } finally {
       setUpdating(null)
     }
