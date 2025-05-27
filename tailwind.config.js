@@ -50,11 +50,11 @@ module.exports = {
           foreground: "hsl(var(--card-foreground))",
         },
         status: {
-          studying: "#8b5cf6",
-          working: "#ef4444", 
-          eating: "#f59e0b",
-          free: "#10b981",
-          offline: "#6b7280"
+          studying: "rgb(var(--status-studying))",
+          working: "rgb(var(--status-working))", 
+          eating: "rgb(var(--status-eating))",
+          free: "rgb(var(--status-free))",
+          offline: "rgb(var(--status-offline))"
         }
       },
       borderRadius: {
