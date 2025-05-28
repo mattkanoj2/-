@@ -1,36 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
+    /* Enhanced color palette with modern gradients */
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 224 71% 4%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 224 71% 4%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222.2 84% 4.9%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96%;
-    --accent-foreground: 222.2 84% 4.9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-    --radius: 0.5rem;
+    --popover-foreground: 224 71% 4%;
+    --primary: 262 83% 58%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 262 47% 96%;
+    --secondary-foreground: 262 83% 58%;
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 4% 46%;
+    --accent: 262 83% 58%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 262 83% 58%;
+    --radius: 0.75rem;
     
-    /* Status colors */
+    /* Enhanced status colors with gradients */
     --status-studying: 99 102 241;
     --status-working: 239 68 68;
     --status-eating: 245 158 11;
     --status-free: 34 197 94;
     --status-offline: 156 163 175;
+    
+    /* Gradient colors */
+    --gradient-primary: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+    --gradient-secondary: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+    --gradient-success: linear-gradient(135deg, #10B981 0%, #34D399 100%);
+    --gradient-warning: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
+    --gradient-danger: linear-gradient(135deg, #EF4444 0%, #F87171 100%);
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    
+    /* Animations */
+    --animation-fast: 150ms;
+    --animation-normal: 300ms;
+    --animation-slow: 500ms;
+  }
+  
+  .dark {
+    --background: 224 71% 4%;
+    --foreground: 0 0% 95%;
+    --card: 224 71% 8%;
+    --card-foreground: 0 0% 95%;
+    --popover: 224 71% 8%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 262 83% 58%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 262 30% 20%;
+    --secondary-foreground: 262 83% 80%;
+    --muted: 224 10% 20%;
+    --muted-foreground: 224 5% 60%;
+    --accent: 262 83% 58%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 224 10% 20%;
+    --input: 224 10% 20%;
+    --ring: 262 83% 58%;
   }
 }
 
@@ -38,22 +81,143 @@
   * {
     @apply border-border;
   }
+  
+  html {
+    @apply scroll-smooth;
+  }
+  
   body {
-    @apply bg-background text-foreground;
-    font-family: 'Inter', 'Noto Sans JP', sans-serif;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+  }
+  
+  ::selection {
+    @apply bg-primary/20 text-primary;
+  }
+  
+  /* Focus styles */
+  :focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
+  }
+  
+  /* Scrollbar styles */
+  ::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted-foreground/20 rounded-full;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/30;
   }
 }
 
 @layer components {
+  /* Enhanced card styles with glass morphism */
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-xl border border-white/20 shadow-xl;
+  }
+  
+  .dark .glass-card {
+    @apply bg-card/80 backdrop-blur-xl border border-white/10;
+  }
+  
+  /* Status grid with improved spacing */
   .status-grid {
-    @apply grid grid-cols-2 sm:grid-cols-3 gap-4 p-4;
+    @apply grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6;
   }
   
+  /* Enhanced friend card with hover effects */
   .friend-card {
-    @apply relative p-4 bg-card rounded-lg border shadow-sm hover:shadow-md transition-shadow;
+    @apply relative p-6 bg-gradient-to-br from-white to-gray-50 rounded-2xl border border-gray-100 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden;
   }
   
+  .friend-card::before {
+    @apply absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 transition-opacity duration-300;
+    content: '';
+  }
+  
+  .friend-card:hover::before {
+    @apply opacity-100;
+  }
+  
+  /* Modern status button with gradient borders */
   .status-button {
-    @apply flex flex-col items-center justify-center p-6 rounded-lg border-2 transition-all hover:scale-105 active:scale-95;
+    @apply relative flex flex-col items-center justify-center p-8 rounded-2xl border-2 transition-all duration-300 hover:scale-105 active:scale-95 overflow-hidden;
+  }
+  
+  .status-button::before {
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    content: '';
+    background: radial-gradient(circle at center, currentColor, transparent);
+    filter: blur(40px);
+  }
+  
+  .status-button:hover::before {
+    @apply opacity-20;
+  }
+  
+  /* Loading animations */
+  .shimmer {
+    @apply relative overflow-hidden;
+  }
+  
+  .shimmer::after {
+    @apply absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent;
+    content: '';
+  }
+  
+  /* Smooth transitions */
+  .transition-smooth {
+    @apply transition-all duration-300 ease-in-out;
+  }
+  
+  /* Text gradients */
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+  }
+}
+
+@layer utilities {
+  /* Custom animations */
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  
+  @keyframes pulse-ring {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1.5);
+      opacity: 0;
+    }
+  }
+  
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  .animate-pulse-ring {
+    animation: pulse-ring 2s ease-out infinite;
   }
 }

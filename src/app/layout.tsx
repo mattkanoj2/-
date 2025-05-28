@@ -1,12 +1,22 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'ヒトコト | シンプルなステータス共有',
   description: '親しい友人間でのシンプルで気軽なコミュニケーション',
+  keywords: ['SNS', 'ステータス共有', 'プライベート', 'コミュニケーション'],
+  authors: [{ name: 'ヒトコト Team' }],
+  openGraph: {
+    title: 'ヒトコト | シンプルなステータス共有',
+    description: '親しい友人間でのシンプルで気軽なコミュニケーション',
+    type: 'website',
+    locale: 'ja_JP',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'ヒトコト | シンプルなステータス共有',
+    description: '親しい友人間でのシンプルで気軽なコミュニケーション',
+  },
 }
 
 export default function RootLayout({
@@ -15,11 +25,9 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="ja">
-      <body className={inter.className}>
-        <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-          {children}
-        </main>
+    <html lang="ja" className="scroll-smooth">
+      <body className="antialiased">
+        {children}
       </body>
     </html>
   )
