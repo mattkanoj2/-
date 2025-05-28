@@ -47,10 +47,30 @@ export default function DashboardPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-muted-foreground">読み込み中...</p>
+      <div className="min-h-screen relative overflow-hidden">
+        {/* Animated gradient background */}
+        <div className="fixed inset-0 bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
+          <div className="absolute top-1/4 -left-10 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float"></div>
+          <div className="absolute top-3/4 -right-10 w-96 h-96 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float" style={{ animationDelay: '3s' }}></div>
+          <div className="absolute bottom-1/4 left-1/2 w-96 h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float" style={{ animationDelay: '5s' }}></div>
+        </div>
+        
+        <div className="relative z-10 min-h-screen flex items-center justify-center">
+          <div className="text-center space-y-6">
+            <div className="relative">
+              <div className="h-24 w-24 mx-auto">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary to-accent rounded-full animate-spin"></div>
+                <div className="absolute inset-2 bg-white rounded-full"></div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="h-16 w-16 bg-gradient-to-r from-primary to-accent rounded-full animate-pulse"></div>
+                </div>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <p className="text-lg font-semibold text-foreground animate-pulse">読み込み中...</p>
+              <p className="text-sm text-muted-foreground">もう少しお待ちください</p>
+            </div>
+          </div>
         </div>
       </div>
     )
@@ -61,16 +81,54 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <Header user={user} />
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Animated gradient background */}
+      <div className="fixed inset-0 bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
+        <div className="absolute top-1/4 -left-10 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float"></div>
+        <div className="absolute top-3/4 -right-10 w-96 h-96 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float" style={{ animationDelay: '3s' }}></div>
+        <div className="absolute bottom-1/4 left-1/2 w-96 h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float" style={{ animationDelay: '5s' }}></div>
+      </div>
       
-      <main className="container mx-auto px-4 py-6 max-w-4xl">
-        <div className="space-y-6">
-          <FriendsGrid />
-          <StatusGrid />
-        </div>
-      </main>
-      <Toaster />
+      <div className="relative z-10">
+        <Header user={user} />
+        
+        <main className="container mx-auto px-4 py-8 max-w-6xl">
+          <div className="space-y-8">
+            {/* Welcome section */}
+            <div className="text-center mb-8">
+              <h1 className="text-3xl sm:text-4xl font-bold text-gradient mb-2">
+                おかえりなさい、{user.name || 'ユーザー'}さん
+              </h1>
+              <p className="text-muted-foreground text-lg">
+                今日も友達とつながりましょう
+              </p>
+            </div>
+            
+            {/* Main content with glass morphism cards */}
+            <div className="space-y-8">
+              {/* Friends section */}
+              <div className="glass-card rounded-3xl p-6 sm:p-8">
+                <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+                  <span className="text-2xl">👥</span>
+                  友達のステータス
+                </h2>
+                <FriendsGrid />
+              </div>
+              
+              {/* Status update section */}
+              <div className="glass-card rounded-3xl p-6 sm:p-8">
+                <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+                  <span className="text-2xl">✨</span>
+                  あなたのステータス
+                </h2>
+                <StatusGrid />
+              </div>
+            </div>
+          </div>
+        </main>
+        
+        <Toaster />
+      </div>
     </div>
   )
 }
